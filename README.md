@@ -3,7 +3,7 @@
 <p align="left">
   <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Logo_J%26T_Merah_Square.jpg" alt="J&T Logo" width="200" height="200" />
 </p>
-
+🚚 Release v1.1 : https://drive.google.com/file/d/1GRUPNKzaPHxbBylhNa-Z1If0R2hLImv-/view?usp=sharing
 ## 🌟 Tính năng nổi bật
 - Giao diện đẹp, màu đỏ-trắng chuẩn J&T, thân thiện end user
 - Tra cứu số điện thoại người nhận theo mã vận đơn
