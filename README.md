@@ -1,6 +1,8 @@
 # 🚚 Tool Tra Cứu Số Điện Thoại Theo Mã Vận Đơn J&T Express
 
-![J&T Logo](https://upload.wikimedia.org/wikipedia/commons/6/6b/J%26T_Express_logo.svg)
+<p align="left">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Logo_J%26T_Merah_Square.jpg" alt="J&T Logo" width="200" height="200" />
+</p>
 
 ## 🌟 Tính năng nổi bật
 - Giao diện đẹp, màu đỏ-trắng chuẩn J&T, thân thiện end user
