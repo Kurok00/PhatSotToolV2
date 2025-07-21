@@ -1,49 +1,68 @@
-# Tool Tra Cứu Số Điện Thoại Theo Mã Vận Đơn J&T Express
+# 🚚 Tool Tra Cứu Số Điện Thoại Theo Mã Vận Đơn J&T Express
 
-## 1. Mô tả
-Tool này giúp bạn tra cứu nhanh số điện thoại người nhận và lấy token từ Chrome cho hệ thống J&T Express. Giao diện đơn giản, dễ dùng, không cần biết code!
+![J&T Logo](https://upload.wikimedia.org/wikipedia/commons/6/6b/J%26T_Express_logo.svg)
 
-## 2. Yêu cầu môi trường
-- **Python 3.8+** (khuyên dùng bản mới nhất)
-- **Google Chrome** (bắt buộc, đã đăng nhập tài khoản J&T)
-- **ChromeDriver** (phiên bản phù hợp với Chrome, đã có sẵn file `chromedriver.exe` trong thư mục này)
-
-## 3. Cài đặt các thư viện cần thiết
-Mở terminal/cmd tại thư mục chứa file, chạy lệnh sau:
-```bash
-pip install tkinter selenium requests
-```
-> Nếu bị lỗi `tkinter` thì cài thêm qua package manager của Python hoặc cài lại Python có sẵn tkinter.
-
-## 4. Hướng dẫn sử dụng
-### Bước 1: Lấy token (authToken)
-Có 2 cách:
-- **Cách 1 (tự động, khuyên dùng):**
-    1. Mở Chrome bằng debug mode:
-        - Đóng hết Chrome.
-        - Mở terminal/cmd, chạy:
-          ```bash
-          chrome.exe --remote-debugging-port=9222 --user-data-dir="C:/Users/Administrator/AppData/Local/Google/Chrome/User Data"
-          ```
-        - Đăng nhập vào https://jms.jtexpress.vn/.
-    2. Bấm nút "Lấy token từ Chrome đang mở (debug)" trên tool.
-- **Cách 2 (thủ công):**
-    - Vào F12 > Application > Local Storage > copy giá trị `YL_TOKEN` dán vào ô authToken.
-
-### Bước 2: Tra cứu số điện thoại
-1. Nhập danh sách mã vận đơn (mỗi dòng 1 mã) vào ô tương ứng.
-2. Nhập/copy authToken vào ô trên.
-3. Bấm nút "Tra cứu".
-4. Xem kết quả ở bảng phía dưới.
-
-## 5. Lưu ý
-- Token hết hạn thì lấy lại như bước 1.
-- Nếu không lấy được token, kiểm tra lại Chrome đã chạy debug mode chưa.
-- Nếu bị lỗi ChromeDriver, tải đúng phiên bản tại: https://chromedriver.chromium.org/downloads
-
-## 6. Style techlead genZ
-- Code dễ hiểu, UI thân thiện, debug dễ.
-- Có gì lỗi cứ inbox, mình support nhiệt tình!
+## 🌟 Tính năng nổi bật
+- Giao diện đẹp, màu đỏ-trắng chuẩn J&T, thân thiện end user
+- Tra cứu số điện thoại người nhận theo mã vận đơn
+- Tra cứu tên shipper theo số điện thoại, chọn ngày bằng lịch
+- Lấy nhanh token từ Chrome debug chỉ với 1 click
+- Không cần biết code, chỉ cần copy-paste token là dùng được
 
 ---
-Chúc bạn tra cứu vui vẻ! 🚀 
+
+## 🖥️ Yêu cầu hệ thống
+- **Windows** (khuyên dùng Win 10/11)
+- **Python 3.8+** (tải tại [python.org](https://www.python.org/downloads/))
+- **Google Chrome** (bắt buộc, đã đăng nhập tài khoản J&T)
+- **ChromeDriver** (đã có sẵn file `chromedriver.exe` trong thư mục này)
+
+---
+
+## ⚡ Cài đặt nhanh
+1. **Cài Python** (nếu chưa có):
+   - Tải và cài Python từ [python.org](https://www.python.org/downloads/)
+   - Khi cài nhớ tick "Add Python to PATH"
+2. **Cài các thư viện cần thiết:**
+   Mở terminal/cmd tại thư mục chứa file, chạy:
+   ```bash
+   pip install tkinter selenium requests tkcalendar
+   ```
+   > Nếu bị lỗi `tkinter` thì cài lại Python bản chuẩn, hoặc dùng Microsoft Store để cài Python.
+
+---
+
+## 🛠️ Hướng dẫn sử dụng
+### 1. Lấy token từ Chrome
+- Chạy file `chrome_debug_shortcut.bat` để mở Chrome ở chế độ debug (profile riêng, không ảnh hưởng Chrome chính)
+- Đăng nhập vào [J&T JMS](https://jms.jtexpress.vn/) trên Chrome debug vừa mở
+- Bấm nút **"Lấy token từ Chrome đang mở (debug)"** trên tool, token sẽ tự động điền vào ô
+
+### 2. Tra cứu số điện thoại theo mã vận đơn
+- Nhập **authToken** vào ô trên cùng (hoặc dùng nút lấy token tự động)
+- Nhập **mã vận đơn** (mỗi dòng 1 mã)
+- Bấm **Tra cứu**
+- Kết quả sẽ hiển thị ở bảng bên dưới
+
+### 3. Tra cứu tên shipper từ số điện thoại
+- Nhập **số điện thoại** vào ô to màu đỏ
+- Chọn **Từ ngày** và **Đến ngày** bằng lịch (mặc định là cả tháng hiện tại)
+- Bấm **Tra cứu tên shipper**
+- Tên shipper sẽ hiển thị ngay bên dưới
+
+---
+
+## 💡 Lưu ý
+- **Không cần commit thư mục `chrome_debug_profile/`, file `.exe`, `.venv/`, `__pycache__/` vào git** (đã có sẵn `.gitignore`)
+- Nếu API trả về lỗi ngoài giờ hành chính (6h-22h), vui lòng thử lại trong khung giờ cho phép
+- Nếu không lấy được token, kiểm tra lại Chrome debug đã mở đúng chưa
+
+---
+
+## 📦 Đóng góp & phát triển
+- Repo: [https://github.com/Kurok00/PhatSotToolV2](https://github.com/Kurok00/PhatSotToolV2)
+- Mọi ý kiến, bug, góp ý UI/UX, tính năng mới... cứ tạo issue hoặc liên hệ trực tiếp!
+
+---
+
+## 🏆 Cảm ơn bạn đã sử dụng tool! Chúc bạn tra cứu đơn J&T siêu nhanh 🚀 
