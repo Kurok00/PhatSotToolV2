@@ -107,6 +107,8 @@ def fetch_shipper(phone, auth_token, start=None, end=None):
 def tra_cuu():
     waybills = txt_waybills.get("1.0", tk.END).strip().splitlines()
     auth_token = txt_token.get().strip()
+    start = date_start_top.get_date().strftime("%Y-%m-%d")
+    end = date_end_top.get_date().strftime("%Y-%m-%d")
     if not waybills or not auth_token:
         messagebox.showwarning("Thiếu thông tin", "Vui lòng nhập mã vận đơn và authToken!")
         return
@@ -119,7 +121,14 @@ def tra_cuu():
             if not waybill:
                 continue
             phone = fetch_phone(waybill, auth_token)
-            tree.insert("", tk.END, values=(waybill, phone))
+            # Tự động tra tên shipper nếu có SĐT hợp lệ
+            if phone and phone.isdigit() and len(phone) >= 8:
+                ten_shipper = fetch_shipper(phone, auth_token, start, end)
+                if not ten_shipper or 'không' in ten_shipper.lower() or 'lỗi' in ten_shipper.lower():
+                    ten_shipper = "Không tìm thấy shipper"
+            else:
+                ten_shipper = ""
+            tree.insert("", tk.END, values=(waybill, phone, ten_shipper))
         btn_tra_cuu.config(state=tk.NORMAL)
     threading.Thread(target=worker, daemon=True).start()
 
@@ -157,11 +166,11 @@ def get_token_from_chrome():
         if token:
             txt_token.delete(0, tk.END)
             txt_token.insert(0, token)
-            messagebox.showinfo('Thành công', 'Lấy token thành công!')
+            show_copy_notify('Lấy token thành công!', JT_RESULT)
         else:
-            messagebox.showerror('Lỗi', 'Không tìm thấy YL_TOKEN trong localStorage!')
+            show_copy_notify('Không tìm thấy YL_TOKEN trong localStorage!', JT_ERROR)
     except Exception as e:
-        messagebox.showerror('Lỗi', f'Lấy token thất bại: {e}')
+        show_copy_notify(f'Lấy token thất bại: {e}', JT_ERROR)
 
 def get_token_from_chrome_debug():
     try:
@@ -180,11 +189,11 @@ def get_token_from_chrome_debug():
         if token:
             txt_token.delete(0, tk.END)
             txt_token.insert(0, token)
-            messagebox.showinfo('Thành công', 'Lấy token từ Chrome đang mở thành công!')
+            show_copy_notify('Lấy token từ Chrome đang mở thành công!', JT_RESULT)
         else:
-            messagebox.showerror('Lỗi', 'Không tìm thấy YL_TOKEN trong localStorage!')
+            show_copy_notify('Không tìm thấy YL_TOKEN trong localStorage!', JT_ERROR)
     except Exception as e:
-        messagebox.showerror('Lỗi', f'Lấy token thất bại: {e}')
+        show_copy_notify(f'Lấy token thất bại: {e}', JT_ERROR)
 
 # ======= STYLE J&T ĐỎ - TRẮNG =======
 JT_RED = "#e60012"         # Đỏ J&T
@@ -284,8 +293,13 @@ title = tk.Label(root, text="Tool Tra Cứu J&T", font=("Arial", 22, "bold"), fg
 title.pack(pady=(12, 8))
 
 # ======= KHUNG AUTH & MÃ VẬN ĐƠN =======
-frame_top = tk.LabelFrame(root, text="Tra cứu số điện thoại theo mã vận đơn", font=("Arial", 13, "bold"), fg=JT_TITLE, bg=JT_WHITE, bd=2, relief=tk.GROOVE, labelanchor="n")
+frame_top = tk.LabelFrame(root, text="Tra cứu Tên Shipper từ Mã Vận đơn", font=("Arial", 13, "bold"), fg=JT_TITLE, bg=JT_WHITE, bd=2, relief=tk.GROOVE, labelanchor="n")
 frame_top.pack(fill="x", padx=40, pady=(10, 14))
+
+# Khai báo biến ngày đầu/tháng cuối tháng hiện tại (dùng cho cả 2 khung)
+now = datetime.datetime.now()
+first_day = now.replace(day=1)
+last_day = now.replace(day=calendar.monthrange(now.year, now.month)[1])
 
 # Hàng nhập token
 lbl_token = tk.Label(frame_top, text="Nhập authToken:", font=("Arial", 12, "bold"), fg=JT_LABEL, bg=JT_WHITE)
@@ -301,9 +315,22 @@ lbl_waybills = tk.Label(frame_top, text="Nhập mã vận đơn (mỗi dòng 1 m
 lbl_waybills.grid(row=1, column=0, sticky="ne", padx=(18, 6), pady=(2, 16))
 txt_waybills = tk.Text(frame_top, height=5, width=38, font=("Arial", 13), bg=JT_GRAY, relief=tk.GROOVE, bd=2)
 txt_waybills.grid(row=1, column=1, columnspan=2, padx=(0, 18), pady=(2, 16), sticky="we")
+txt_waybills.bind("<Return>", lambda event: (tra_cuu(), "break"))
+
+# Thêm field chọn ngày start/end
+lbl_start_top = tk.Label(frame_top, text="Từ ngày:", font=("Arial", 12), fg=JT_LABEL, bg=JT_WHITE)
+lbl_start_top.grid(row=2, column=0, sticky="e", padx=(18, 4), pady=(2, 8))
+date_start_top = DateEntry(frame_top, width=12, font=("Arial", 12), date_pattern="yyyy-mm-dd", background=JT_RED_LIGHT, foreground=JT_TITLE, borderwidth=2)
+date_start_top.set_date(first_day)
+date_start_top.grid(row=2, column=1, sticky="w", padx=(0, 8), pady=(2, 8))
+lbl_end_top = tk.Label(frame_top, text="Đến ngày:", font=("Arial", 12), fg=JT_LABEL, bg=JT_WHITE)
+lbl_end_top.grid(row=2, column=1, sticky="e", padx=(180, 4), pady=(2, 8))
+date_end_top = DateEntry(frame_top, width=12, font=("Arial", 12), date_pattern="yyyy-mm-dd", background=JT_RED_LIGHT, foreground=JT_TITLE, borderwidth=2)
+date_end_top.set_date(last_day)
+date_end_top.grid(row=2, column=2, sticky="w", padx=(0, 18), pady=(2, 8))
 
 btn_tra_cuu = tk.Button(frame_top, text="Tra cứu", command=tra_cuu, font=("Arial", 12, "bold"), bg=JT_RED, fg=JT_BTN_TEXT, relief=tk.RAISED, bd=2, activebackground="#ff8a80", width=12)
-btn_tra_cuu.grid(row=2, column=2, sticky="e", padx=(0, 18), pady=(0, 12))
+btn_tra_cuu.grid(row=3, column=2, sticky="e", padx=(0, 18), pady=(0, 12))
 
 # ======= KHUNG TRA CỨU SHIPPER =======
 frame_shipper = tk.LabelFrame(root, text="Tra cứu tên shipper từ số điện thoại", font=("Arial", 13, "bold"), fg=JT_TITLE, bg=JT_WHITE, bd=2, relief=tk.GROOVE, labelanchor="n")
@@ -359,6 +386,50 @@ style.configure("Treeview.Heading",
     foreground=JT_BTN_TEXT,
     font=("Arial", 12, "bold")
 )
+
+# Thêm label thông báo copy ở giữa dưới giao diện
+copy_notify_label = tk.Label(root, text="", font=("Arial", 12, "bold"), fg=JT_TITLE, bg="#fff", bd=2, relief="groove")
+copy_notify_label.place(relx=0.5, rely=1.0, anchor="s", y=-24)
+copy_notify_label.lower()  # Ẩn mặc định
+
+def show_copy_notify(msg, color=JT_TITLE):
+    copy_notify_label.config(text=msg, fg=color)
+    copy_notify_label.lift()
+    # Fade out effect sau 2s
+    def fade_out(alpha=1.0):
+        if alpha <= 0:
+            copy_notify_label.lower()
+            copy_notify_label.config(fg=color)  # reset lại màu cho lần sau
+            return
+        copy_notify_label.config(fg=color, bg="#fff")
+        copy_notify_label.tk.call(copy_notify_label._w, 'configure', '-foreground', color)
+        copy_notify_label.tk.call(copy_notify_label._w, 'configure', '-background', '#fff')
+        copy_notify_label.attributes = getattr(copy_notify_label, 'attributes', {})
+        copy_notify_label.attributes['alpha'] = alpha
+        # Giả lập fade bằng cách giảm màu chữ (opacity không native với Label, nên chỉ giảm dần màu)
+        gray = int(255 * (1 - alpha))
+        fg_fade = f"#{gray:02x}{gray:02x}{gray:02x}"
+        copy_notify_label.config(fg=fg_fade)
+        copy_notify_label.after(50, lambda: fade_out(alpha - 0.1))
+    copy_notify_label.after(2000, fade_out)
+
+def on_treeview_double_click(event):
+    item = tree.identify_row(event.y)
+    col = tree.identify_column(event.x)
+    if not item or not col:
+        return
+    col_idx = int(col.replace('#', '')) - 1
+    values = tree.item(item, 'values')
+    if col_idx < 0 or col_idx >= len(values):
+        return
+    value = values[col_idx]
+    if value:
+        root.clipboard_clear()
+        root.clipboard_append(value)
+        root.update()  # Đảm bảo clipboard nhận giá trị
+        show_copy_notify(f"Đã copy: {value}")
+
+tree.bind("<Double-1>", on_treeview_double_click)
 
 root.update()
 root.minsize(root.winfo_width(), root.winfo_height())
