@@ -1,0 +1,20 @@
+# Core GUI framework
+tkinter
+
+# HTTP requests
+requests
+
+# Web automation
+selenium
+
+# Date/calendar widget
+tkcalendar
+
+# Image processing
+Pillow
+
+# PyInstaller for building executable
+pyinstaller
+
+# Additional dependencies that might be needed
+python-dateutil

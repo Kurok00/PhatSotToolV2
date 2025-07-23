@@ -1,70 +1,202 @@
-# 🚚 Tool Tra Cứu Số Điện Thoại Theo Mã Vận Đơn J&T Express
+# 🚚 Tool Tra Cứu J&T Express v2.0
 
-<p align="left">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Logo_J%26T_Merah_Square.jpg" alt="J&T Logo" width="200" height="200" />
+<div align="center">
+  <img src="https://img.shields.io/badge/version-2.0-red?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/python-3.8+-blue?style=for-the-badge" alt="Python">
+  <img src="https://img.shields.io/badge/platform-Windows-lightgrey?style=for-the-badge" alt="Platform">
+  <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License">
+</div>
+
+<p align="center">
+  <img src="Logo_JT.ico" alt="J&T Tool" width="120" height="120" />
 </p>
 
-## 🌟 Tính năng nổi bật
-- Giao diện đẹp, màu đỏ-trắng chuẩn J&T, thân thiện end user
-- Tra cứu số điện thoại người nhận theo mã vận đơn
-- Tra cứu tên shipper theo số điện thoại, chọn ngày bằng lịch
-- Lấy nhanh token từ Chrome debug chỉ với 1 click
-- Không cần biết code, chỉ cần copy-paste token là dùng được
+<p align="center">
+  <strong>� Công cụ tra cứu thông tin J&T Express chuyên nghiệp</strong><br>
+  Tra cứu số điện thoại & tên shipper nhanh chóng, giao diện hiện đại
+</p>
 
 ---
 
-## 🖥️ Yêu cầu hệ thống
-- **Windows** (khuyên dùng Win 10/11)
-- **Python 3.8+** (tải tại [python.org](https://www.python.org/downloads/))
-- **Google Chrome** (bắt buộc, đã đăng nhập tài khoản J&T)
-- **ChromeDriver** (đã có sẵn file `chromedriver.exe` trong thư mục này)
+## ⭐ Tính năng nổi bật
+
+### 🔍 **Tra cứu thông tin**
+- ✅ Tra cứu số điện thoại theo mã vận đơn
+- ✅ Tra cứu tên shipper theo số điện thoại
+- ✅ Hỗ trợ tra cứu batch (nhiều mã cùng lúc)
+- ✅ Tùy chọn khoảng thời gian tra cứu
+
+### 🎨 **Giao diện & UX**
+- ✅ Giao diện hiện đại, màu sắc chuẩn J&T
+- ✅ Responsive design, tối ưu cho nhiều kích thước màn hình
+- ✅ Copy dữ liệu bằng double-click
+- ✅ Thông báo floating với animation
+
+### 🛡️ **Bảo mật & Tính năng**
+- ✅ Chế độ stealth chống ban account
+- ✅ Auto login từ Chrome browser
+- ✅ Delay ngẫu nhiên để tránh spam
+- ✅ Hủy process giữa chừng
 
 ---
 
-## ⚡ Cài đặt nhanh
-1. **Cài Python** (nếu chưa có):
-   - Tải và cài Python từ [python.org](https://www.python.org/downloads/)
-   - Khi cài nhớ tick "Add Python to PATH"
-2. **Cài các thư viện cần thiết:**
-   Mở terminal/cmd tại thư mục chứa file, chạy:
-   ```bash
-   pip install tkinter selenium requests tkcalendar
-   ```
-   > Nếu bị lỗi `tkinter` thì cài lại Python bản chuẩn, hoặc dùng Microsoft Store để cài Python.
+## 🚀 Cài đặt nhanh
+
+### **Option 1: Sử dụng Executable (Khuyến nghị)**
+1. Tải file `.exe` từ [Releases](https://github.com/Kurok00/PhatSotToolV2/releases)
+2. Double-click để chạy
+3. Không cần cài đặt gì thêm!
+
+### **Option 2: Chạy từ Source Code**
+```bash
+git clone https://github.com/Kurok00/PhatSotToolV2.git
+cd PhatSotToolV2
+pip install -r requirements.txt
+python main.py
+```
+
+### **Option 3: Script tự động**
+```bash
+# PowerShell (Khuyến nghị)
+.\run_app.ps1
+
+# Batch file
+.\Run-Tool.bat
+```
+
+> 📋 **Chi tiết setup**: Xem [SETUP.md](SETUP.md)
 
 ---
 
-## 🛠️ Hướng dẫn sử dụng
-### 1. Lấy token từ Chrome
-- Chạy file `chrome_debug_shortcut.bat` để mở Chrome ở chế độ debug (profile riêng, không ảnh hưởng Chrome chính)
-- Đăng nhập vào [J&T JMS](https://jms.jtexpress.vn/) trên Chrome debug vừa mở
-- Bấm nút **"Lấy token từ Chrome đang mở (debug)"** trên tool, token sẽ tự động điền vào ô
+## � Hướng dẫn sử dụng
 
-### 2. Tra cứu số điện thoại theo mã vận đơn
-- Nhập **authToken** vào ô trên cùng (hoặc dùng nút lấy token tự động)
-- Nhập **mã vận đơn** (mỗi dòng 1 mã)
-- Bấm **Tra cứu**
-- Kết quả sẽ hiển thị ở bảng bên dưới
+### 🔑 **Bước 1: Lấy Auth Token**
 
-### 3. Tra cứu tên shipper từ số điện thoại
-- Nhập **số điện thoại** vào ô to màu đỏ
-- Chọn **Từ ngày** và **Đến ngày** bằng lịch (mặc định là cả tháng hiện tại)
-- Bấm **Tra cứu tên shipper**
-- Tên shipper sẽ hiển thị ngay bên dưới
+**Cách 1: Auto Login (Khuyến nghị)**
+1. Mở Chrome và đăng nhập [J&T JMS](https://jms.jtexpress.vn/)
+2. Chạy `Chrome.bat` để mở Chrome ở chế độ debug
+3. Click nút "🔧 Auto Đăng nhập" trong tool
+4. Token sẽ tự động được điền vào ô
 
----
+**Cách 2: Manual**
+1. Mở F12 Developer Tools trên trang J&T JMS
+2. Vào tab Application → Local Storage → https://jms.jtexpress.vn
+3. Copy giá trị của key `YL_TOKEN`
+4. Paste vào ô Auth Token
 
-## 💡 Lưu ý
-- **Không cần commit thư mục `chrome_debug_profile/`, file `.exe`, `.venv/`, `__pycache__/` vào git** (đã có sẵn `.gitignore`)
-- Nếu API trả về lỗi ngoài giờ hành chính (6h-22h), vui lòng thử lại trong khung giờ cho phép
-- Nếu không lấy được token, kiểm tra lại Chrome debug đã mở đúng chưa
+### 📦 **Bước 2: Tra cứu Batch**
+1. Nhập các mã vận đơn (mỗi dòng 1 mã)
+2. Chọn tháng tra cứu
+3. Tùy chọn chế độ stealth (chống ban)
+4. Click "🚀 BẮT ĐẦU TRA CỨU"
 
----
-
-## 📦 Đóng góp & phát triển
-- Repo: [https://github.com/Kurok00/PhatSotToolV2](https://github.com/Kurok00/PhatSotToolV2)
-- Mọi ý kiến, bug, góp ý UI/UX, tính năng mới... cứ tạo issue hoặc liên hệ trực tiếp!
+### 📞 **Bước 3: Tra cứu đơn lẻ**
+1. Nhập số điện thoại
+2. Chọn tháng tra cứu
+3. Click "🔍 TRA CỨU SHIPPER"
 
 ---
 
-## 🏆 Cảm ơn bạn đã sử dụng tool! Chúc bạn tra cứu đơn J&T siêu nhanh 🚀 
+## 🎯 Screenshots
+
+<details>
+<summary>Click để xem ảnh demo</summary>
+
+### Main Interface
+![Main Interface](docs/screenshots/main-interface.png)
+
+### Batch Lookup
+![Batch Lookup](docs/screenshots/batch-lookup.png)
+
+### Results View
+![Results View](docs/screenshots/results-view.png)
+
+</details>
+
+---
+
+## 🛠️ Xây dựng từ Source
+
+```bash
+# Clone repository
+git clone https://github.com/Kurok00/PhatSotToolV2.git
+cd PhatSotToolV2
+
+# Tạo virtual environment
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# Cài đặt dependencies
+pip install -r requirements.txt
+
+# Chạy ứng dụng
+python main.py
+
+# Build executable (optional)
+pyinstaller main.spec
+```
+
+---
+
+## ⚙️ Cấu hình nâng cao
+
+### **Stealth Mode Settings**
+- **Delay Min/Max**: Thời gian chờ ngẫu nhiên giữa các request (5-10 giây)
+- **Anti-Ban**: Tự động phát hiện và tránh các pattern có thể bị ban
+
+### **Chrome Debug Setup**
+```bash
+# Tạo profile Chrome riêng cho debug
+chrome.exe --remote-debugging-port=9222 --user-data-dir="./chrome_debug_profile"
+```
+
+---
+
+## 🤝 Đóng góp
+
+1. Fork repository này
+2. Tạo feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Tạo Pull Request
+
+---
+
+## 📝 Changelog
+
+### v2.0.0 (Current)
+- ✨ Giao diện mới hoàn toàn với Material Design
+- ✨ Hỗ trợ batch processing
+- ✨ Chế độ stealth chống ban
+- ✨ Floating notifications với animation
+- ✨ Copy dữ liệu bằng double-click
+- 🐛 Fix các lỗi UI responsive
+- 🚀 Tối ưu performance
+
+### v1.1.0
+- ✨ Auto login từ Chrome
+- ✨ Tra cứu theo khoảng thời gian
+- 🐛 Fix lỗi encoding
+
+---
+
+## � License
+
+Dự án này được phát hành dưới [MIT License](LICENSE).
+
+---
+
+## 💖 Cảm ơn
+
+**Made with 💖 by Chú 7 Dog**
+
+- 🌟 **Star** repo này nếu thấy hữu ích!
+- 🐛 **Report bugs** tại [Issues](https://github.com/Kurok00/PhatSotToolV2/issues)
+- 💡 **Suggest features** cho phiên bản tiếp theo
+- 🤝 **Contribute** để cùng phát triển tool
+
+---
+
+<div align="center">
+  <strong>🚀 Happy coding! 🚀</strong>
+</div> 
